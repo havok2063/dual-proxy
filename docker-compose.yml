@@ -8,6 +8,7 @@ services:
       - "8765:8765"
     environment:
       - SOLARA_ROOT=/valis/solara
+      - VALIS_WORKERS=4
   proxy1:
     image: nginx
     ports:
@@ -20,5 +21,3 @@ services:
       - "81:80"
     volumes:
       - ./nginx2/conf/:/etc/nginx/conf.d/:ro
-    environment:
-      - VALIS_WORKERS=2

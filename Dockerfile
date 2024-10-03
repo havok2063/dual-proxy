@@ -10,7 +10,7 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --upgrade pip && \
-pip install --no-cache-dir fastapi solara jdaviz gunicorn
+pip install --no-cache-dir fastapi["standard"] solara jdaviz gunicorn
 
 COPY app.py /main.py
 COPY solara_app.py /solara_app.py
@@ -25,7 +25,10 @@ ENV FORWARDED_PROXY_HEADERS="*"
 ENV VALIS_LOGS_DIR=/logs
 
 # single worker unicorn
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8765"]
+#CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8765"]
 
 # multi-worker gunicorn
-#CMD ["gunicorn", "-c", "gunicorn_conf.py", "main:app"]
+CMD ["gunicorn", "-c", "gunicorn_conf.py", "main:app"]
+
+# fastapi multi-worker
+#CMD ["fastapi", "run", "--host", "0.0.0.0", "--port", "8765", "--workers", "4", "main.py"]
