@@ -11,9 +11,7 @@ try:
 except ImportError:
     solara_server = None
 
-app = FastAPI(title='Valis', description='Test')
-# submount app to allow for production /valis location
-app.mount("/valis", app)
+app = FastAPI(title='Valis', description='Test', root_path="/valis")
 
 @app.get("/", summary='Hello World route', response_model=dict)
 def hello():
